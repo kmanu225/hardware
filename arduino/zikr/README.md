@@ -14,10 +14,14 @@ See [project.pdf](project.pdf) for more details.
 ## Current Status
 
 - **zikr.ino**: The counter value is displayed via the Serial Monitor at **9600 baud**.  
+![alt text](ressources/serial_monitor.png)
+
 - **zikr_lcd.ino**: The counter value is displayed via an LCD screen.  
+![alt text](ressources/lcd_screen.png)
 
 ## References
 
 * [Tinkercad Circuits](https://www.tinkercad.com/dashboard/designs/circuits)  
 * [Arduino EEPROM Guide](https://docs.arduino.cc/learn/programming/eeprom-guide/)  
 * [Liquid Crystal Displays (LCD) with Arduino](https://docs.arduino.cc/learn/electronics/lcd-displays/)
+
