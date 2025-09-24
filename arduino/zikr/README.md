@@ -2,7 +2,7 @@
 
 ![Example](ressources/project.png)
 
-This simple Arduino project implements a digital *zikr* counter.
+This simple Arduino project implements a digital *zikr* counter.  
 It currently provides the following features:
 
 * Increment the counter
@@ -13,13 +13,11 @@ See [project.pdf](project.pdf) for more details.
 
 ## Current Status
 
-At this stage, the counter value is displayed via the Serial Monitor at **9600 baud**.
-
-## Next Steps
-
-The next step could be to integrate a screen to display the counter value directly on the device.
+- **zikr.ino**: The counter value is displayed via the Serial Monitor at **9600 baud**.  
+- **zikr_lcd.ino**: The counter value is displayed via an LCD screen.  
 
 ## References
 
-* [Tinkercad Circuits](https://www.tinkercad.com/dashboard/designs/circuits)
-* [Arduino EEPROM Guide](https://docs.arduino.cc/learn/programming/eeprom-guide/)
+* [Tinkercad Circuits](https://www.tinkercad.com/dashboard/designs/circuits)  
+* [Arduino EEPROM Guide](https://docs.arduino.cc/learn/programming/eeprom-guide/)  
+* [Liquid Crystal Displays (LCD) with Arduino](https://docs.arduino.cc/learn/electronics/lcd-displays/)
