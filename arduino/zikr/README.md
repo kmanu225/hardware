@@ -1,25 +1,23 @@
 # Zikr
 
-![Example](ressources/example.png)
+![Example](ressources/project.png)
 
 This simple Arduino project implements a digital *zikr* counter.
 It currently provides the following features:
 
 * Increment the counter
 * Reset the counter
-* Save the counter state in EEPROM memory (persistent across resets of the Arduino board)
+* Save the counter state in EEPROM memory (persistent across Arduino board resets)
 
-## Arduino Board Connections
-
-![Circuit Diagram](ressources/electronic_crcuit.png)
+See [project.pdf](project.pdf) for more details.
 
 ## Current Status
 
-At this stage, the counter value is displayed through the Serial Monitor at **9600 baud**.
+At this stage, the counter value is displayed via the Serial Monitor at **9600 baud**.
 
 ## Next Steps
 
-The next step will be to integrate a screen to display the counter value directly on the device.
+The next step could be to integrate a screen to display the counter value directly on the device.
 
 ## References
 

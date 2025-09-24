@@ -6,8 +6,8 @@ int MAX_COUNTER = 99999;
 int MIN_COUNTER = 0;
 int currentCounterValue;
 
-int buttonApin = 9;
-int buttonBpin = 8;
+int buttonApin = 8;
+int buttonBpin = 9;
 
 void setup() {
   Serial.begin(9600);
