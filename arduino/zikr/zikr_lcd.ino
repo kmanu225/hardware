@@ -28,7 +28,7 @@ void setup() {
   // Initialize EEPROM if value is out of range
   if (currentCounterValue < MIN_COUNTER || currentCounterValue > MAX_COUNTER) {
     currentCounterValue = initCounterValue;
-    EEPROM.update(counterAddr, currentCounterValue);
+    EEPROM.put(counterAddr, currentCounterValue);
   }
 
   pinMode(buttonApin, INPUT_PULLUP);
@@ -77,13 +77,13 @@ void getCounter() {
 void incrementCounter() {
   currentCounterValue++;
   if (currentCounterValue > MAX_COUNTER) currentCounterValue = MIN_COUNTER;
-  EEPROM.update(counterAddr, currentCounterValue);
+  EEPROM.put(counterAddr, currentCounterValue);
   getCounter();
 }
 
 void resetCounter() {
   currentCounterValue = initCounterValue;
-  EEPROM.update(counterAddr, currentCounterValue);
+  EEPROM.put(counterAddr, currentCounterValue);
   getCounter();
 }
 
