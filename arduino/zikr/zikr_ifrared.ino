@@ -4,14 +4,10 @@
 
 // EEPROM & counter setup
 int counterAddr = 0x0;
-int initCounterValue = 0;
-int MAX_COUNTER = 99999;
-int MIN_COUNTER = 0;
-int currentCounterValue;
-
-// Button pins
-int buttonApin = 11;
-int buttonBpin = 12;
+const unsigned long initCounterValue = 0;
+const unsigned long MAX_COUNTER = 99999;
+const unsigned long MIN_COUNTER = 0;
+unsigned long currentCounterValue;
 
 // LCD setup
 LiquidCrystal_I2C lcd(0x27, 20, 4);
@@ -26,8 +22,6 @@ const int RECV_PIN = 9;
 unsigned long lastCode = 0;
 
 void setup() {
-  Serial.begin(9600);
-
   // Load counter from EEPROM
   EEPROM.get(counterAddr, currentCounterValue);
 
@@ -39,9 +33,6 @@ void setup() {
     currentCounterValue = initCounterValue;
     EEPROM.put(counterAddr, currentCounterValue);
   }
-
-  pinMode(buttonApin, INPUT_PULLUP);
-  pinMode(buttonBpin, INPUT_PULLUP);
 
   // Start IR receiver
   IrReceiver.begin(RECV_PIN, ENABLE_LED_FEEDBACK);
@@ -56,18 +47,17 @@ void display_screen() {
 
   lcd.setCursor(7, 0);
   char minBuf[12];
-  sprintf(minBuf, "MIN %05d", MIN_COUNTER);
+  sprintf(minBuf, "MIN %05lu", MIN_COUNTER);
   lcd.print(minBuf);
 
   lcd.setCursor(0, 1);
   char counterBuf[6];
-  sprintf(counterBuf, "%05d", currentCounterValue);
+  sprintf(counterBuf, "%05lu", currentCounterValue);
   lcd.print(counterBuf);
 
   lcd.setCursor(7, 1);
-  char maxBuf[12];
-  sprintf(maxBuf, "MAX %05d", MAX_COUNTER);
-  lcd.print(maxBuf);
+  lcd.print("MAX ");
+  lcd.print(MAX_COUNTER);
 }
 
 void getCounter() {
@@ -75,52 +65,56 @@ void getCounter() {
 
   lcd.setCursor(0, 1);
   char buffer[6];
-  sprintf(buffer, "%05d", currentCounterValue);
+  sprintf(buffer, "%05lu", currentCounterValue);
   lcd.print(buffer);
-
-  lcd.setCursor(4, 1);
-  lcd.blink();
 }
 
 void incrementCounter() {
-  currentCounterValue++;
-  if (currentCounterValue > MAX_COUNTER) currentCounterValue = MAX_COUNTER;
-  EEPROM.put(counterAddr, currentCounterValue);
+
+  if (currentCounterValue < MAX_COUNTER) {
+    currentCounterValue++;
+    EEPROM.put(counterAddr, currentCounterValue);
+  }
   getCounter();
 }
 
 void decrementCounter() {
-  currentCounterValue--;
-  if (currentCounterValue < MIN_COUNTER) currentCounterValue = MIN_COUNTER;
-  EEPROM.put(counterAddr, currentCounterValue);
+  if (currentCounterValue > MIN_COUNTER) {
+    currentCounterValue--;
+    EEPROM.put(counterAddr, currentCounterValue);
+  }
   getCounter();
 }
 
+
 void resetCounter() {
-  currentCounterValue = initCounterValue;
-  EEPROM.put(counterAddr, currentCounterValue);
+  if (currentCounterValue != MIN_COUNTER) {
+    currentCounterValue = initCounterValue;
+    EEPROM.put(counterAddr, currentCounterValue);
+  }
   getCounter();
 }
 
 void loop() {
 
   if (IrReceiver.decode()) {
-    unsigned long code = IrReceiver.decodedIRData.decodedRawData;
+    unsigned long code;
 
-    if (code == 0) {
-      code = lastCode;  // Repeat last code
+    if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) {
+      code = lastCode;
     } else {
+      code = IrReceiver.decodedIRData.command;
       lastCode = code;
       switch (lastCode) {
-        case 0xB946FF00:  // Increment
+        case 0x46:  // Increment
           incrementCounter();
           break;
 
-        case 0xEA15FF00:  // Decrement
+        case 0x15:  // Decrement
           decrementCounter();
           break;
 
-        case 0xBA45FF00:  // Reset
+        case 0x45:  // Reset
           resetCounter();
           break;
       }
