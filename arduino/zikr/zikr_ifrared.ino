@@ -12,11 +12,6 @@ unsigned long currentCounterValue;
 // LCD setup
 LiquidCrystal_I2C lcd(0x27, 20, 4);
 
-// Debounce setup
-unsigned long lastPressA = 0;
-unsigned long lastPressB = 0;
-const unsigned long debounceTime = 50;  // ms
-
 // Infra Red setup
 const int RECV_PIN = 9;
 unsigned long lastCode = 0;
